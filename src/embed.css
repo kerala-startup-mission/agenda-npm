@@ -1,0 +1,20 @@
+@tailwind utilities;
+
+[data-agenda] {
+  display: block;
+  width: 100%;
+}
+
+.agenda-embed {
+  width: 100%;
+  color: #111827;
+}
+
+.agenda-embed button {
+  cursor: pointer;
+}
+
+.agenda-embed img {
+  display: block;
+  max-width: 100%;
+}

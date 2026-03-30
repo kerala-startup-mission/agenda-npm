@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agenda Embed Demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 2rem;
+        background: #f5f5f5;
+        color: #111827;
+      }
+
+      .demo-shell {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+
+      .demo-shell h1 {
+        margin-bottom: 0.5rem;
+      }
+
+      .demo-note {
+        margin-bottom: 2rem;
+        color: #4b5563;
+      }
+
+      .demo-grid {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .demo-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="demo-shell">
+      <h1>Agenda Embed Demo</h1>
+      <p class="demo-note">
+        Update the <code>data-url</code> and <code>data-agenda</code> values below to point at a real API.
+      </p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <div
+            data-agenda="demo-event"
+            data-url="https://example.com"
+            data-border="border-slate-300"
+            data-bg="bg-white"
+            data-select="bg-slate-900 text-white border-slate-900"
+            data-text="text-slate-900"
+            data-round="border-slate-900"
+            data-color-1="text-slate-500"
+            data-color-2="text-slate-600"
+          ></div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="/src/agenda.js"></script>
+  </body>
+  </html>

@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.DS_Store
+vite-react-tailwind/node_modules/
+vite-react-tailwind/dist/
+vite-react-tailwind/public/agenda-embed.js

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agenda Embed Example</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f8fafc;
+        color: #0f172a;
+      }
+
+      .page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 20px 64px;
+      }
+
+      .page h1 {
+        margin: 0 0 12px;
+        font-size: 2rem;
+        line-height: 1.1;
+      }
+
+      .page p {
+        margin: 0 0 24px;
+        color: #475569;
+      }
+
+      .embed-shell {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <main class="page">
+      <h1>Huddle Global 2024 Agenda</h1>
+      <p>
+        Example host page for the embeddable agenda widget.
+      </p>
+
+      <section class="embed-shell">
+        <div
+          data-agenda="huddle-global-2024"
+          data-url="https://events.startupmission.in"
+          data-border="border-slate-300"
+          data-bg="bg-white"
+          data-select="bg-slate-900 text-white border-slate-900"
+          data-text="text-slate-900"
+          data-round="border-slate-900"
+          data-color-1="text-slate-500"
+          data-color-2="text-slate-600"
+        ></div>
+      </section>
+    </main>
+
+    <script src="../dist/agenda-embed.js"></script>
+  </body>
+</html>
