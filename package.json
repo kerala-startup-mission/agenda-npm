@@ -1,6 +1,6 @@
 {
   "name": "@kerala-startup-mission/agenda",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "Embeddable agenda widget bundle for Startup Mission event pages.",
   "license": "UNLICENSED",
