@@ -1,6 +1,6 @@
 # Agenda Embed
 
-Embeddable Svelte agenda widget bundled as a single browser script.
+Embeddable agenda widget bundled as a single browser script.
 
 ## Install
 
@@ -28,41 +28,24 @@ This produces:
 dist/agenda-embed.js
 ```
 
-## Publish To npm
-
-The package is configured to publish as:
-
-```text
-@kerala-startup-mission/agenda
-```
-
-Publish flow:
-
-```bash
-npm login
-npm publish
-```
-
-`prepublishOnly` runs the build automatically before publishing.
-
-After publish, the bundle can be used from jsDelivr:
+The bundle can be used from jsDelivr:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@kerala-startup-mission/agenda@1.0.0/dist/agenda-embed.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@kerala-startup-mission/agenda@1.0.2/dist/agenda-embed.js"></script>
 ```
 
 Or via unpkg:
 
 ```html
-<script src="https://unpkg.com/@kerala-startup-mission/agenda@1.0.0/dist/agenda-embed.js"></script>
+<script src="https://unpkg.com/@kerala-startup-mission/agenda@1.0.2/dist/agenda-embed.js"></script>
 ```
 
 ## Embed Snippet
 
 ```html
 <div
-  data-agenda="my-event"
-  data-url="https://api.example.com"
+  data-agenda="huddle-global-2024"
+  data-url="https://events.startupmission.in/"
   data-border="border-slate-300"
   data-bg="bg-white"
   data-select="bg-slate-900 text-white border-slate-900"
