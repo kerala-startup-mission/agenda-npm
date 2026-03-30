@@ -5,9 +5,14 @@
   "description": "Embeddable agenda widget bundle for Startup Mission event pages.",
   "license": "UNLICENSED",
   "type": "module",
-  "main": "./dist/agenda-embed.js",
+  "main": "./dist/agenda.es.js",
+  "module": "./dist/agenda.es.js",
   "jsdelivr": "./dist/agenda-embed.js",
   "unpkg": "./dist/agenda-embed.js",
+  "exports": {
+    ".": "./dist/agenda.es.js",
+    "./dist/agenda-embed.js": "./dist/agenda-embed.js"
+  },
   "files": [
     "dist"
   ],

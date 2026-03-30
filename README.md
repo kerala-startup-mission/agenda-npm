@@ -75,6 +75,48 @@ Or via unpkg:
 <script src="https://your-cdn.example.com/agenda-embed.js"></script>
 ```
 
+## React From npm Package
+
+Install:
+
+```bash
+npm install @kerala-startup-mission/agenda
+```
+
+Minimal React example:
+
+```jsx
+import { useEffect, useRef } from 'react';
+import AgendaEmbed from '@kerala-startup-mission/agenda';
+
+export default function AgendaWidget() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      AgendaEmbed.init(ref.current);
+    }
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      data-agenda="huddle-global-2024"
+      data-url="https://events.startupmission.in/"
+      data-border="border-slate-300"
+      data-bg="bg-white"
+      data-select="bg-slate-900 text-white border-slate-900"
+      data-text="text-slate-900"
+      data-round="border-slate-900"
+      data-color-1="text-slate-500"
+      data-color-2="text-slate-600"
+    />
+  );
+}
+```
+
+Use a dedicated container element and let the widget own everything inside that node after initialization.
+
 ## Required Attributes
 
 - `data-agenda`: event slug or ID

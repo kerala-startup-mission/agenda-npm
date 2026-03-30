@@ -1,42 +1,13 @@
 import { useEffect, useRef } from 'react';
-
-function loadAgendaScript() {
-  const existing = document.querySelector('script[data-agenda-embed-script="true"]');
-
-  if (existing) {
-    return Promise.resolve();
-  }
-
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = '/agenda-embed.js';
-    script.async = true;
-    script.dataset.agendaEmbedScript = 'true';
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Failed to load agenda-embed.js'));
-    document.body.appendChild(script);
-  });
-}
+import AgendaEmbed from '@kerala-startup-mission/agenda';
 
 function AgendaCard() {
   const mountRef = useRef(null);
 
   useEffect(() => {
-    let cancelled = false;
-
-    loadAgendaScript()
-      .then(() => {
-        if (!cancelled && mountRef.current && window.AgendaEmbed) {
-          window.AgendaEmbed.init(mountRef.current);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-    return () => {
-      cancelled = true;
-    };
+    if (mountRef.current) {
+      AgendaEmbed.init(mountRef.current);
+    }
   }, []);
 
   return (
@@ -69,8 +40,8 @@ export default function App() {
             Huddle Global 2024 agenda embedded inside a React app
           </h1>
           <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">
-            This example uses a dedicated mount container, loads the generated agenda bundle once,
-            and asks the widget to initialize itself inside the React component.
+            This example installs the widget from the npm package and initializes it inside a
+            dedicated React mount container.
           </p>
         </div>
 

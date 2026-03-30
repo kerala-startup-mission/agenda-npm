@@ -4,12 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "sync:embed": "mkdir -p public && cp ../../dist/agenda-embed.js public/agenda-embed.js",
-    "dev": "npm run sync:embed && vite",
-    "build": "npm run sync:embed && vite build",
+    "dev": "vite",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kerala-startup-mission/agenda": "file:../..",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

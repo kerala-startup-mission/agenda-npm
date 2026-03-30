@@ -11,21 +11,15 @@ npm install
 npm run dev
 ```
 
-Before starting Vite, the example copies the built embed bundle from:
-
-```text
-../../dist/agenda-embed.js
-```
-
-into:
-
-```text
-public/agenda-embed.js
-```
-
 ## Important
 
-Build the root widget bundle first so the example has something to copy:
+This example installs the package from the local repo using:
+
+```text
+@kerala-startup-mission/agenda: file:../..
+```
+
+Build the root widget bundle first so the package has fresh dist files:
 
 ```bash
 cd /Users/ksum/Documents/Sidharth/code/agenda-package

@@ -12,8 +12,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/agenda.js'),
       name: 'AgendaEmbed',
-      formats: ['iife'],
-      fileName: () => 'agenda-embed.js'
+      formats: ['es', 'iife'],
+      fileName: (format) => format === 'es' ? 'agenda.es.js' : 'agenda-embed.js'
     },
     cssCodeSplit: false,
     outDir: 'dist',
