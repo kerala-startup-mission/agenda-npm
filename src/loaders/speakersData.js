@@ -13,12 +13,10 @@ function buildSpeakersUrl({ url, event, categories = '' }) {
 export async function loadSpeakersData({ url, event, categories = '' }) {
   const endpoint = buildSpeakersUrl({ url, event, categories });
   const raw = await fetchJsonOrThrow(endpoint, 'Speakers');
-  const speakerGroups = raw ?? {};
-  const groups = Object.entries(speakerGroups).filter(([, speakers]) => Array.isArray(speakers) && speakers.length);
+  const groups = Object.entries(raw).filter(([, speakers]) => Array.isArray(speakers) && speakers.length);
 
   return {
     raw,
-    speakerGroups,
     groups
   };
 }
