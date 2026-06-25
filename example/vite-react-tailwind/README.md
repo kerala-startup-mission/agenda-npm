@@ -1,6 +1,6 @@
 # Vite React Tailwind Example
 
-This example shows how to host the agenda widget inside a Vite + React + Tailwind app.
+This example shows how to host the agenda widget and speakers widget inside a Vite + React + Tailwind app.
 
 ## Run
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agenda Embed Demo</title>
+    <title>Agenda and Speakers Embed Demo</title>
     <style>
       body {
         font-family: sans-serif;
@@ -42,9 +42,9 @@
   </head>
   <body>
     <main class="demo-shell">
-      <h1>Agenda Embed Demo</h1>
+      <h1>Agenda and Speakers Embed Demo</h1>
       <p class="demo-note">
-        Update the <code>data-url</code> and <code>data-agenda</code> values below to point at a real API.
+        Update the <code>data-url</code>, <code>data-agenda</code>, and <code>data-speakers</code> values below to point at a real API.
       </p>
 
       <div class="demo-grid">
@@ -55,6 +55,19 @@
             data-border="border-slate-300"
             data-bg="bg-white"
             data-select="bg-slate-900 text-white border-slate-900"
+            data-text="text-slate-900"
+            data-round="border-slate-900"
+            data-color-1="text-slate-500"
+            data-color-2="text-slate-600"
+          ></div>
+        </div>
+        <div class="demo-card">
+          <div
+            data-speakers="demo-event"
+            data-url="https://example.com"
+            data-categories="speaker,government"
+            data-border="border-slate-300"
+            data-bg="bg-white"
             data-text="text-slate-900"
             data-round="border-slate-900"
             data-color-1="text-slate-500"

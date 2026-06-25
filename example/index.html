@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agenda Embed Example</title>
+    <title>Agenda and Speakers Embed Example</title>
     <style>
       body {
         margin: 0;
@@ -40,9 +40,9 @@
   </head>
   <body>
     <main class="page">
-      <h1>Huddle Global 2024 Agenda</h1>
+      <h1>Huddle Global 2024 Widgets</h1>
       <p>
-        Example host page for the embeddable agenda widget.
+        Example host page for the embeddable agenda and speakers widgets.
       </p>
 
       <section class="embed-shell">
@@ -56,6 +56,21 @@
           data-round="border-slate-900"
           data-color-1="text-slate-500"
           data-color-2="text-slate-600"
+        ></div>
+      </section>
+
+      <section class="embed-shell" style="margin-top: 24px;">
+        <div
+          data-speakers="huddle-global-2024"
+          data-url="https://events.startupmission.in"
+          data-categories="speaker,government"
+          data-border="border-slate-300"
+          data-bg="bg-white"
+          data-text="text-slate-900"
+          data-round="border-slate-900"
+          data-color-1="text-slate-500"
+          data-color-2="text-slate-600"
+          data-columns="4"
         ></div>
       </section>
     </main>

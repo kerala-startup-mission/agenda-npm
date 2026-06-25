@@ -15,6 +15,11 @@ export default defineConfig({
       formats: ['es', 'iife'],
       fileName: (format) => format === 'es' ? 'agenda.es.js' : 'agenda-embed.js'
     },
+    rollupOptions: {
+      output: {
+        exports: 'named'
+      }
+    },
     cssCodeSplit: false,
     outDir: 'dist',
     emptyOutDir: true

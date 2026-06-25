@@ -1,11 +1,13 @@
 @tailwind utilities;
 
-[data-agenda] {
+[data-agenda],
+[data-speakers] {
   display: block;
   width: 100%;
 }
 
-.agenda-embed {
+.agenda-embed,
+.speakers-embed {
   width: 100%;
   color: #111827;
 }
@@ -14,7 +16,31 @@
   cursor: pointer;
 }
 
-.agenda-embed img {
+.agenda-embed img,
+.speakers-embed img {
   display: block;
   max-width: 100%;
+}
+
+.agenda-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  width: 100%;
+}
+
+.agenda-loader__spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(148, 163, 184, 0.35);
+  border-top-color: rgba(15, 23, 42, 0.95);
+  border-radius: 9999px;
+  animation: agenda-spin 0.7s linear infinite;
+}
+
+@keyframes agenda-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

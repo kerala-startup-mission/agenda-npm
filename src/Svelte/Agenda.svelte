@@ -1,8 +1,14 @@
 <script>
   import {onMount} from 'svelte';
   import SvelteMarkdown from 'svelte-markdown';
-  import { DateTime } from "luxon";
   import simplur from 'simplur';
+  import { DateTime } from 'luxon';
+  import {
+    formatAgendaDate,
+    formatAgendaTime,
+    getVenuesForDate,
+    loadAgendaData
+  } from '../loaders/agendaData';
 
 
   export let event;
@@ -18,9 +24,7 @@
   let loading = true;
   let load_error = "";
 
-  let agenda_list = [];
-  let categories = [];
-  let venues = [];
+  let data = null;
   let available_venues = [];
 
   let active_tab = ""; 
@@ -32,23 +36,12 @@
     load_error = "";
 
     try {
-      let response = await fetch(`${url}/api/event/${event}/agenda/venue`);
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-
-      let data = await response.json();
-      agenda_list = data.agenda ?? {};
-      categories = data.categories ?? [];
-      venues = data.venues ?? [];
-      active_tab = (dates().indexOf(today) >= 0) ? today : dates()[0] ?? "";
+      data = await loadAgendaData({ url, event });
+      active_tab = data.dates.indexOf(today) >= 0 ? today : data.dates[0] ?? "";
     } catch (error) {
       console.error('Agenda embed failed to load data.', error);
       load_error = "Unable to load the agenda right now.";
-      agenda_list = {};
-      categories = [];
-      venues = [];
+      data = null;
       active_tab = "";
       active_venue = "";
     } finally {
@@ -57,51 +50,16 @@
 
   }
 
-  function dates(){
-    let dates = Object.keys(agenda_list);
-    return dates;
-  }
-
-  function venuesForDate(date) {
-    return Object.keys(agenda_list?.[date] ?? {}).filter((venue) => {
-      const items = agenda_list?.[date]?.[venue];
-      return Array.isArray(items) ? items.length > 0 : Boolean(items);
-    });
-  }
-
-  $: available_venues = venuesForDate(active_tab);
-  $: if (!available_venues.length) {
+  $: available_venues = data?.venuesByDate?.[active_tab];
+  $: if (!available_venues?.length) {
     active_venue = "";
-  } else if (!available_venues.includes(active_venue)) {
+  } else if (!available_venues?.includes(active_venue)) {
     active_venue = available_venues[0];
   }
 
   onMount(async ()=>{
     await loadData();
   });
-
-  function date_format(date, format) {
-    let d = DateTime.fromFormat(date, "LLL dd, yyyy");
-    return d.toFormat(format);
-  }
-
-  function date_single(date){
-    let s = DateTime.fromSQL(date);
-    return s.toFormat('hh:mm a');
-  }
-
-  function date_detail(start, end){
-    let s = DateTime.fromSQL(start);
-    let e = DateTime.fromSQL(end);
-
-    if(s.hasSame(e, 'day')){
-      return s.toFormat('hh:mm a') + " - " + e.toFormat('hh:mm a')
-    }
-    else{
-      return s.toFormat('hh:mm a') + " - " + e.toFormat('hh:mm a')
-    }
-
-  }
 
   function selectTab(date){
     active_tab = date;
@@ -119,18 +77,18 @@
   </div>
 {:else if load_error}
   <div class="py-6 text-sm text-red-600">{load_error}</div>
-{:else if !dates().length}
+{:else if !data?.dates?.length}
   <div class="py-6 text-sm {text_color}">No agenda is available.</div>
 {:else}
   <div class="agenda__tabs text-center flex items-center justify-center flex-wrap gap-5 text-white mb-10">
-    {#each Object.entries(agenda_list) as [date]}
+    {#each data.dates as date}
       <button on:click={() => selectTab(date)} class="px-5 py-2 spl_cursor sm:text-base text-xs rounded-md shadow border {date == active_tab ? select_color : border_color + ' ' + text_color}">
-        <span>{date_format(date, 'ccc')}</span>, {date_format(date, 'LLL d, y')}
+        <span>{formatAgendaDate(date, 'ccc')}</span>, {formatAgendaDate(date, 'LLL d, y')}
       </button>
     {/each}
   </div>
 
-  {#if available_venues.length}
+  {#if available_venues?.length}
     <div class="agenda__tabs text-center flex items-center justify-center flex-wrap gap-5 text-white mb-10">
       {#each available_venues as venue}
         <button on:click={() => selectVenue(venue)} class="px-5 py-2 spl_cursor sm:text-base text-xs rounded-md shadow border {venue == active_venue ? select_color : border_color + ' ' + text_color}">
@@ -141,7 +99,7 @@
   {/if}
 
   <div id="event-sched1" data-title="Event Schedule">
-    {#each Object.entries(agenda_list) as [date, agendas]}
+    {#each Object.entries(data.agenda) as [date, agendas]}
       {#if date == active_tab}
         <div class="w-full max-w-4xl mx-auto mb-5">
           {#each Object.entries(agendas) as [venue, agenda]}
@@ -149,7 +107,7 @@
               {#each agenda as {name, description, start_time, end_time, category, speakers, venue}}
                 <div class="{bg_color} {border_color} border px-5 py-3">
                   <div class="flex flex-col md:flex-row md:space-x-5">
-                    <div class="{text_color} md:pt-3 flex-shrink-0 min-w-[6rem]">{date_single(start_time)} IST</div>
+                    <div class="{text_color} md:pt-3 flex-shrink-0 min-w-[6rem]">{formatAgendaTime(start_time)} IST</div>
 
                     <div class="w-full divide-y divide-gray-600 space-y-4 mb-3">
                       <div class="w-full pt-3">
@@ -200,26 +158,4 @@
 {/if}
 
 <style>
-  .agenda-loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-    width: 100%;
-  }
-
-  .agenda-loader__spinner {
-    width: 36px;
-    height: 36px;
-    border: 3px solid rgba(148, 163, 184, 0.35);
-    border-top-color: rgba(15, 23, 42, 0.95);
-    border-radius: 9999px;
-    animation: agenda-spin 0.7s linear infinite;
-  }
-
-  @keyframes agenda-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
 </style>
