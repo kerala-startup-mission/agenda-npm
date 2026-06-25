@@ -209,7 +209,7 @@ import { loadAgendaData, loadSpeakersData } from '@kerala-startup-mission/agenda
 `loadSpeakersData({ url, event, categories? })` returns:
 
 - `raw`
-- `groups`
+- `speakers`
 
 The loaders throw on network failure or non-OK responses.
 

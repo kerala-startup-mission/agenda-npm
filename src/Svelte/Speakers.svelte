@@ -24,7 +24,7 @@
 
     try {
       const data = await loadSpeakersData({ url, event, categories: categories_filter });
-      speaker_entries = data.groups;
+      speaker_entries = data.speakers;
     } catch (error) {
       console.error('Speakers embed failed to load data.', error);
       load_error = 'Unable to load the speakers right now.';
