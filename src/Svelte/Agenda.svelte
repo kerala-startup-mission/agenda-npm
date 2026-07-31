@@ -19,6 +19,7 @@
   export let select_color;
   export let text_color;
   export let bg_color;
+  export let modal_bg_color = 'bg-white';
   export let speaker_border;
   export let category_color;
   export let sub_color;
@@ -196,7 +197,7 @@
   loading={modal_loading}
   error={modal_error}
   speaker={active_speaker}
-  {bg_color}
+  bg_color={modal_bg_color}
   {border_color}
   {text_color}
   {sub_color}

@@ -57,6 +57,7 @@ function createSpeakersInstance(element) {
       columns: parseColumns(element.getAttribute('data-columns')),
       border_color: readAttr(element, 'data-border', 'border-black'),
       bg_color: readAttr(element, 'data-bg', 'bg-white'),
+      modal_bg_color: readAttr(element, 'data-modal-bg', 'bg-white'),
       text_color: readAttr(element, 'data-text', 'text-black'),
       speaker_border: readAttr(element, 'data-round', 'border-black'),
       category_color: readAttr(element, 'data-color-1', 'text-black'),

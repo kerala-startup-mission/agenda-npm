@@ -310,6 +310,7 @@ which the default self-contained build injects automatically.
 - `data-categories`
 - `data-border`
 - `data-bg`
+- `data-modal-bg` (speaker detail modal background; defaults to `bg-white`)
 - `data-select`
 - `data-text`
 - `data-round`
