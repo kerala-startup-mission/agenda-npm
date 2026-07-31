@@ -20,3 +20,9 @@ export async function loadSpeakersData({ url, event, categories = '' }) {
     speakers
   };
 }
+
+export async function loadSpeaker({ url, event, hid }) {
+  const endpoint = new URL(`${url}/api/event/${event}/speakers/${hid}`).toString();
+  const raw = await fetchJsonOrThrow(endpoint, 'Speaker');
+  return raw.data ?? raw;
+}

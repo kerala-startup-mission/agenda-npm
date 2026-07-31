@@ -44,3 +44,10 @@
     transform: rotate(360deg);
   }
 }
+
+/* Custom column count only kicks in past mobile; below 640px stays 1-col. */
+@media (min-width: 60rem) {
+  .speakers-grid[style*="--speakers-cols"] {
+    grid-template-columns: repeat(var(--speakers-cols), minmax(0, 1fr));
+  }
+}

@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { loadSpeakersData } from '../loaders/speakersData';
+  import { loadSpeakersData, loadSpeaker } from '../loaders/speakersData';
+  import SpeakerModal from './SpeakerModal.svelte';
 
   export let event;
   export let url;
@@ -16,7 +17,28 @@
   let loading = true;
   let load_error = "";
   let speaker_entries = [];
-  $: grid_style = columns > 0 ? `grid-template-columns: repeat(${columns}, minmax(0, 1fr));` : null;
+  $: grid_style = columns > 0 ? `--speakers-cols: ${columns};` : null;
+
+  let modal_open = false;
+  let modal_loading = false;
+  let modal_error = "";
+  let active_speaker = null;
+
+  async function openSpeaker(id) {
+    modal_open = true;
+    modal_loading = true;
+    modal_error = "";
+    active_speaker = null;
+
+    try {
+      active_speaker = await loadSpeaker({ url, event, hid: id });
+    } catch (error) {
+      console.error('Speakers embed failed to load speaker detail.', error);
+      modal_error = 'Unable to load the speaker right now.';
+    } finally {
+      modal_loading = false;
+    }
+  }
 
   async function loadData() {
     loading = true;
@@ -55,7 +77,7 @@
           {category}
         </div>
 
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style={grid_style}>
+        <div class="speakers-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style={grid_style}>
           {#each speakers as { name, designation, organisation, photo, linkedin, id }}
             <article class="flex min-h-full flex-col gap-4 rounded-2xl border p-5 {bg_color} {border_color}">
               <div class="flex justify-center">
@@ -65,7 +87,12 @@
               </div>
 
               <div class="flex flex-col gap-[0.35rem] text-center">
-                <h3 class="font-bold {text_color}">{name}</h3>
+                <button
+                  type="button"
+                  class="cursor-pointer border-0 bg-transparent p-0 font-bold {text_color}"
+                  aria-haspopup="dialog"
+                  on:click={() => openSpeaker(id)}
+                >{name}</button>
                 <div class="text-xs {sub_color}">{designation ?? ''}</div>
                 <div class="text-xs {sub_color}">{organisation ?? ''}</div>
 
@@ -88,3 +115,18 @@
     {/each}
   </div>
 {/if}
+
+<SpeakerModal
+  open={modal_open}
+  loading={modal_loading}
+  error={modal_error}
+  speaker={active_speaker}
+  {bg_color}
+  {border_color}
+  {text_color}
+  {sub_color}
+  {category_color}
+  {speaker_border}
+  on:select={(e) => openSpeaker(e.detail)}
+  on:close={() => (modal_open = false)}
+/>

@@ -9,6 +9,8 @@
     getVenuesForDate,
     loadAgendaData
   } from '../loaders/agendaData';
+  import { loadSpeaker } from '../loaders/speakersData';
+  import SpeakerModal from './SpeakerModal.svelte';
 
 
   export let event;
@@ -27,8 +29,35 @@
   let data = null;
   let available_venues = [];
 
-  let active_tab = ""; 
-  let active_venue = ""; 
+  let active_tab = "";
+  let active_venue = "";
+
+  let modal_open = false;
+  let modal_loading = false;
+  let modal_error = "";
+  let active_speaker = null;
+
+  async function openSpeaker(sp) {
+    const hid = sp.id ?? sp.hid ?? sp.speaker_hid ?? sp.slug ?? sp.uuid;
+    if (hid == null) {
+      console.warn('Agenda: speaker has no id/hid field.', sp);
+      return;
+    }
+
+    modal_open = true;
+    modal_loading = true;
+    modal_error = "";
+    active_speaker = null;
+
+    try {
+      active_speaker = await loadSpeaker({ url, event, hid });
+    } catch (error) {
+      console.error('Agenda failed to load speaker detail.', error);
+      modal_error = 'Unable to load the speaker right now.';
+    } finally {
+      modal_loading = false;
+    }
+  }
 
   async function loadData(){
     var today = DateTime.now().toFormat("LLL dd, yyyy");
@@ -128,17 +157,22 @@
                               </div>
 
                               <div class="flex flex-wrap w-full">
-                                {#each speaker_list as {name, designation, organisation, photo, linkedin}}
-                                  <div class="flex items-center space-x-4 mb-3 pr-3 md:w-1/2">
+                                {#each speaker_list as sp}
+                                  <button
+                                    type="button"
+                                    class="flex items-center space-x-4 mb-3 pr-3 md:w-1/2 cursor-pointer border-0 bg-transparent p-0 text-left"
+                                    aria-haspopup="dialog"
+                                    on:click={() => openSpeaker(sp)}
+                                  >
                                     <div class="rounded-full flex-shrink-0 w-20 border-r-4 border-b-4 {speaker_border} shadow-lg overflow-hidden">
-                                      <img src={photo} alt={name} />
+                                      <img src={sp.photo} alt={sp.name} />
                                     </div>
                                     <div>
-                                      <div class="font-bold {text_color}">{name}</div>
-                                      <div class="text-xs {sub_color}">{designation}</div>
-                                      <div class="text-xs {sub_color}">{organisation ?? ""}</div>
+                                      <div class="font-bold {text_color}">{sp.name}</div>
+                                      <div class="text-xs {sub_color}">{sp.designation}</div>
+                                      <div class="text-xs {sub_color}">{sp.organisation ?? ""}</div>
                                     </div>
-                                  </div>
+                                  </button>
                                 {/each}
                               </div>
                             {/each}
@@ -156,6 +190,21 @@
     {/each}
   </div>
 {/if}
+
+<SpeakerModal
+  open={modal_open}
+  loading={modal_loading}
+  error={modal_error}
+  speaker={active_speaker}
+  {bg_color}
+  {border_color}
+  {text_color}
+  {sub_color}
+  {category_color}
+  {speaker_border}
+  on:select={(e) => openSpeaker({ id: e.detail })}
+  on:close={() => (modal_open = false)}
+/>
 
 <style>
 </style>

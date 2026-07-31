@@ -11,6 +11,11 @@ export function formatAgendaTime(date) {
   return parsedDate.toFormat('hh:mm a');
 }
 
+export function formatAgendaDateTime(date) {
+  const parsedDate = DateTime.fromSQL(date);
+  return parsedDate.toFormat('LLL d · hh:mm a');
+}
+
 export function formatAgendaTimeRange(start, end) {
   const startDate = DateTime.fromSQL(start);
   const endDate = DateTime.fromSQL(end);

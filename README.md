@@ -211,7 +211,93 @@ import { loadAgendaData, loadSpeakersData } from '@kerala-startup-mission/agenda
 - `raw`
 - `speakers`
 
+`loadSpeaker({ url, event, hid })` fetches a single speaker's detail from
+`${url}/api/event/${event}/speakers/${hid}` and returns the unwrapped speaker
+object (the response's `data` key if present, otherwise the raw body):
+
+```js
+import { loadSpeaker } from '@kerala-startup-mission/agenda';
+
+const speaker = await loadSpeaker({ url, event, hid: speakerId });
+// { name, designation, organisation, photo, linkedin, bio?, agendas? }
+```
+
+`hid` is the per-speaker identifier from the list payload (`id`). When the
+detail payload includes an `agendas` array, each item may carry its own grouped
+`speakers` (`{ category: [...] }`).
+
 The loaders throw on network failure or non-OK responses.
+
+## Speaker Modal Component
+
+`SpeakerModal` is the reusable dialog used by both widgets. Import it into any
+Svelte UI to render speaker detail yourself:
+
+```js
+import { SpeakerModal, loadSpeaker } from '@kerala-startup-mission/agenda';
+```
+
+```svelte
+<script>
+  import { SpeakerModal, loadSpeaker } from '@kerala-startup-mission/agenda';
+
+  export let url;
+  export let event;
+
+  let open = false;
+  let loading = false;
+  let error = '';
+  let speaker = null;
+
+  async function show(hid) {
+    open = true;
+    loading = true;
+    error = '';
+    speaker = null;
+    try {
+      speaker = await loadSpeaker({ url, event, hid });
+    } catch (e) {
+      error = 'Unable to load the speaker right now.';
+    } finally {
+      loading = false;
+    }
+  }
+</script>
+
+<button on:click={() => show(someSpeakerId)}>Open</button>
+
+<SpeakerModal
+  {open}
+  {loading}
+  {error}
+  {speaker}
+  bg_color="bg-white"
+  border_color="border-black"
+  text_color="text-black"
+  sub_color="text-gray-500"
+  category_color="text-blue-600"
+  speaker_border="border-black"
+  on:select={(e) => show(e.detail)}
+  on:close={() => (open = false)}
+/>
+```
+
+Props:
+
+- `open` (bool) — mount/show the dialog.
+- `loading` (bool), `error` (string), `speaker` (object|null) — render state.
+- Color props (`bg_color`, `border_color`, `text_color`, `sub_color`,
+  `category_color`, `speaker_border`) — Tailwind class strings.
+
+Events:
+
+- `close` — fired on Esc, backdrop click, or the close button.
+- `select` — fired with a speaker `hid` (`event.detail`) when an agenda-item
+  speaker is clicked; call `loadSpeaker` again with it to drill in.
+
+The dialog is portaled to `document.body` so `position: fixed` centres on the
+viewport regardless of the host container. It requires the embed stylesheet,
+which the default self-contained build injects automatically.
 
 ## Required Attributes
 
