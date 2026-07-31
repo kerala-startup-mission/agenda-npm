@@ -97,7 +97,7 @@
         <div class="grid {agendas.length ? 'md:grid-cols-3' : ''} gap-6">
           <div class="flex flex-col items-center gap-2 text-center">
             {#if speaker.photo}
-              <div class="h-28 w-28 flex-shrink-0 overflow-hidden rounded-full border-r-4 border-b-4 shadow-[0_15px_25px_rgba(15,23,42,0.12)] {speaker_border}">
+              <div class="h-28 w-28 flex-shrink-0 overflow-hidden rounded-full border-solid border-r-4 border-b-4 shadow-[0_15px_25px_rgba(15,23,42,0.12)] {speaker_border}">
                 <img src={speaker.photo} alt={speaker.name} loading="lazy" class="h-full w-full object-cover" />
               </div>
             {/if}
@@ -133,7 +133,7 @@
           </div>
 
           {#if agendas.length}
-            <div class="md:col-span-2 md:border-l md:pl-6 {border_color}">
+            <div class="md:col-span-2 md:border-l border-solid md:pl-6 {border_color}">
               {#if bio}
                 <div class="mb-6">
                   <div class="mb-1 font-bold uppercase tracking-[0.18em] text-xs {category_color}">About</div>
@@ -144,7 +144,7 @@
               <div class="font-bold uppercase tracking-[0.18em] text-sm {category_color} mb-4">Sessions</div>
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {#each agendas as { name, category, start_time, venue, speakers }}
-                  <div class="rounded-xl border p-3 {border_color}">
+                  <div class="rounded-xl border border-solid p-3 {border_color}">
                     {#if start_time}
                       <div class="text-xs {sub_color}">{formatAgendaDateTime(start_time)} IST</div>
                     {/if}
@@ -170,7 +170,7 @@
                               on:click={() => selectSpeaker(sp)}
                             >
                               {#if sp.photo}
-                                <div class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full border {speaker_border}">
+                                <div class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full border border-solid {speaker_border}">
                                   <img src={sp.photo} alt={sp.name} loading="lazy" class="h-full w-full object-cover" />
                                 </div>
                               {/if}
