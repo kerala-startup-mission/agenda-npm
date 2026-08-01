@@ -157,7 +157,7 @@
                                 {simplur`${[speaker_list.length, category]}[|s]`}
                               </div>
 
-                              <div class="flex flex-wrap w-full">
+                              <div class="flex flex-wrap flex-col md:flex-row w-full">
                                 {#each speaker_list as sp}
                                   <button
                                     type="button"

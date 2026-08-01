@@ -103,7 +103,7 @@
             {/if}
 
             {#if speaker.name}
-              <h3 class="text-lg font-bold {text_color}">{speaker.name}</h3>
+              <div class="text-lg font-bold {text_color}">{speaker.name}</div>
             {/if}
             {#if speaker.designation}
               <div class="text-xs {sub_color}">{speaker.designation}</div>
@@ -133,7 +133,7 @@
           </div>
 
           {#if agendas.length}
-            <div class="md:col-span-2 md:border-l border-solid md:pl-6 {border_color}">
+            <div class="md:col-span-2 border-0 md:border-l border-solid md:pl-6 {border_color}">
               {#if bio}
                 <div class="mb-6">
                   <div class="mb-1 font-bold uppercase tracking-[0.18em] text-xs {category_color}">About</div>
