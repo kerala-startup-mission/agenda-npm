@@ -110,7 +110,7 @@
 {:else if !data?.dates?.length}
   <div class="py-6 text-sm {text_color}">No agenda is available.</div>
 {:else}
-  <div class="agenda__tabs text-center flex items-center justify-center flex-wrap gap-5 text-white mb-10">
+  <div class="agenda__tabs text-center flex items-center justify-center flex-wrap gap-2 md:gap-5 text-white mb-10">
     {#each data.dates as date}
       <button on:click={() => selectTab(date)} class="px-5 py-2 spl_cursor sm:text-base text-xs rounded-md shadow border {date == active_tab ? select_color : border_color + ' ' + text_color}">
         <span>{formatAgendaDate(date, 'ccc')}</span>, {formatAgendaDate(date, 'LLL d, y')}
@@ -119,7 +119,7 @@
   </div>
 
   {#if available_venues?.length}
-    <div class="agenda__tabs text-center flex items-center justify-center flex-wrap gap-5 text-white mb-10">
+    <div class="agenda__tabs text-center flex items-center justify-center flex-wrap gap-2 md:gap-5 text-white mb-10">
       {#each available_venues as venue}
         <button on:click={() => selectVenue(venue)} class="px-5 py-2 spl_cursor sm:text-base text-xs rounded-md shadow border {venue == active_venue ? select_color : border_color + ' ' + text_color}">
           <span>{venue}</span>
