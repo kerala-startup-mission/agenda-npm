@@ -228,6 +228,86 @@ detail payload includes an `agendas` array, each item may carry its own grouped
 
 The loaders throw on network failure or non-OK responses.
 
+### Agenda PDF
+
+Generate an agenda PDF on demand (no UI is added by the widget — call it yourself):
+
+```js
+import { loadAgendaData, generateAgendaPdf } from '@kerala-startup-mission/agenda';
+
+const data = await loadAgendaData({ url, event });
+await generateAgendaPdf({
+  eventName: 'Huddle Global 2024',
+  slug: event,
+  venueData: { agenda: data.agenda },
+  action: 'download', // or 'view' to open in a new tab
+  venues: null,       // optional venue allow-list; null/empty = all venues
+  logo: ''            // optional raw <svg> markup or http(s) URL
+});
+```
+
+Sample download button (plain HTML + the CDN global):
+
+```html
+<button id="agenda-pdf">Download agenda PDF</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@kerala-startup-mission/agenda@1.0.2/dist/agenda-embed.js"></script>
+<script>
+  const url = 'https://events.startupmission.in/';
+  const event = 'huddle-global-2024';
+  const btn = document.getElementById('agenda-pdf');
+
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    btn.textContent = 'Preparing…';
+    try {
+      const data = await AgendaEmbed.loadAgendaData({ url, event });
+      await AgendaEmbed.generateAgendaPdf({
+        eventName: 'Huddle Global 2024',
+        slug: event,
+        venueData: { agenda: data.agenda },
+        action: 'download'
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Could not generate the PDF.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Download agenda PDF';
+    }
+  });
+</script>
+```
+
+React button:
+
+```jsx
+import { loadAgendaData, generateAgendaPdf } from '@kerala-startup-mission/agenda';
+
+function DownloadAgendaButton({ url, event }) {
+  const [busy, setBusy] = useState(false);
+
+  async function download() {
+    setBusy(true);
+    try {
+      const data = await loadAgendaData({ url, event });
+      await generateAgendaPdf({ slug: event, venueData: { agenda: data.agenda }, action: 'download' });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return <button onClick={download} disabled={busy}>{busy ? 'Preparing…' : 'Download agenda PDF'}</button>;
+}
+```
+
+`generateAgendaPdf(opts)` is **async** and returns `false` when there is no
+agenda to render. It lazy-loads `pdfmake` (+ fonts) and `marked` from jsDelivr on
+first call, so a network connection is required at click time; these libraries
+are **not** bundled into the embed. One page per venue: event name + date
+heading (+ logo), a time/session table, markdown descriptions, and grouped
+speaker lists. A `logo` URL is fetched client-side, so it must allow CORS.
+
 ## Speaker Modal Component
 
 `SpeakerModal` is the reusable dialog used by both widgets. Import it into any

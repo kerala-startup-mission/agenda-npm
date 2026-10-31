@@ -3,6 +3,7 @@ import AgendaEmbed from './agendaEmbed';
 import SpeakersEmbed from './speakersEmbed';
 import { loadAgendaData } from './loaders/agendaData';
 import { loadSpeakersData, loadSpeaker } from './loaders/speakersData';
+import { generateAgendaPdf } from './loaders/agendaPdf';
 import SpeakerModal from './Svelte/SpeakerModal.svelte';
 
 function initAll() {
@@ -21,5 +22,5 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export { AgendaEmbed, SpeakersEmbed, loadAgendaData, loadSpeakersData, loadSpeaker, SpeakerModal };
+export { AgendaEmbed, SpeakersEmbed, loadAgendaData, loadSpeakersData, loadSpeaker, generateAgendaPdf, SpeakerModal };
 export default AgendaEmbed;
